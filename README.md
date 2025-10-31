@@ -46,7 +46,7 @@ skilzy publish dist/my-awesome-skill-0.1.0.skill
 
 ## Documentation
 
-For full documentation, visit [docs.skilzy.ai](https://docs.skilzy.ai)
+For full documentation, visit [skilzy.ai/docs](https://skilzy.ai/docs)
 
 ## License
 
