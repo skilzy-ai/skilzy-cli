@@ -1,0 +1,176 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Skilzy Skill Manifest",
+    "description": "Schema for the skilzy.ai skill.json manifest file. This file describes the metadata, dependencies, and permissions for a Skilzy AI skill.",
+    "type": "object",
+    "properties": {
+        "name": {
+            "description": "Unique, hyphen-case name of the skill. Must match the parent directory name.",
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+            "maxLength": 40
+        },
+        "version": {
+            "description": "The version of the skill, strictly following Semantic Versioning (SemVer).",
+            "type": "string",
+            "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+        },
+        "description": {
+            "description": "A brief, clear summary of what the skill does and when an agent should use it.",
+            "type": "string",
+            "minLength": 20,
+            "maxLength": 250
+        },
+        "author": {
+            "description": "The name of the individual or organization that created the skill.",
+            "type": "string"
+        },
+        "license": {
+            "description": "An OSI-approved SPDX license identifier (e.g., 'MIT', 'Apache-2.0').",
+            "type": "string"
+        },
+        "licenseFile": {
+            "description": "Relative path to the file containing the full license text (e.g., 'LICENSE').",
+            "type": "string"
+        },
+        "repository": {
+            "description": "The source code repository for the skill.",
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "git"
+                    ]
+                },
+                "url": {
+                    "type": "string",
+                    "format": "uri"
+                }
+            },
+            "required": [
+                "type",
+                "url"
+            ]
+        },
+        "icon": {
+            "description": "Relative path to the skill's icon file, for display in the Skilzy web UI.",
+            "type": "string"
+        },
+        "entrypoint": {
+            "description": "The main instructional markdown file for the AI agent.",
+            "type": "string",
+            "default": "README.md"
+        },
+        "runtime": {
+            "description": "The execution environment required by the skill.",
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "python"
+                    ]
+                },
+                "version": {
+                    "description": "The required version constraint for the runtime (e.g., '>=3.9').",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "type"
+            ]
+        },
+        "dependencies": {
+            "description": "Lists of system, runtime, and other skill dependencies.",
+            "type": "object",
+            "properties": {
+                "system": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "python": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "skills": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "permissions": {
+            "description": "Declares the resources the skill requires access to at runtime.",
+            "type": "object",
+            "properties": {
+                "network": {
+                    "type": "object",
+                    "properties": {
+                        "allowedHosts": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "description": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "allowedHosts",
+                        "description"
+                    ]
+                },
+                "filesystem": {
+                    "type": "object",
+                    "properties": {
+                        "access": {
+                            "type": "string",
+                            "enum": [
+                                "read",
+                                "write",
+                                "readWrite",
+                                "none"
+                            ]
+                        },
+                        "paths": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "description": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "access",
+                        "description"
+                    ]
+                }
+            }
+        },
+        "keywords": {
+            "description": "An array of keywords to improve discoverability in the registry.",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]+$"
+            }
+        }
+    },
+    "required": [
+        "name",
+        "version",
+        "description",
+        "author",
+        "license",
+        "entrypoint"
+    ]
+}
