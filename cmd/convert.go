@@ -1,4 +1,3 @@
-
 package cmd
 
 import (
@@ -140,11 +139,10 @@ func generateConvertedSkill(data *scaffold.SkillData, sourceDir string) error {
 			return err
 		}
 
-		// If this is SKILL.md, strip frontmatter and keep it as SKILL.md
+		// If this is SKILL.md, ensure the file is copied as-is so any
+		// existing frontmatter (including name and description) is
+		// preserved for backwards compatibility.
 		if info.Name() == "SKILL.md" {
-			if parts := strings.SplitN(string(content), "---", 3); len(parts) >= 3 {
-				content = []byte(parts[2])
-			}
 			// Also create README.md from the SKILL.md content
 			readmeContent := fmt.Sprintf("# %s\n\n## Overview\n\n%s\n\n## Description\n\n[Add detailed description here - this will be shown on the Skilzy registry]\n\n---\n\n**Note:** This README is displayed on the Skilzy registry details page. The actual AI agent instructions are in SKILL.md.\n",
 				data.Name, data.Description)
